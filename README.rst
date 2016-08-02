@@ -70,5 +70,5 @@ EXAMPLE
 TODO
 ++++
 
-* Print the overlay name rather than "OVERLAY" if the ebuild is from an overlay. 
+* if the ebuild is from an overlay, print the overlay name rather than "OVERLAY". 
 
