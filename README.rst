@@ -11,16 +11,17 @@ etcat [ options ] [ package ]
 DESCRIPTION
 -----------
 This is an updated version of **etcat**
-that works with the later versions of **gentoolkit**.
+that works with the later versions of `gentoolkit <https://wiki.gentoo.org/wiki/Gentoolkit>`_.
 
-**etcat** is an information extraction utility for Portage (the Gentoo package
+**etcat** is an information extraction utility for `Portage <https://wiki.gentoo.org/wiki/Portage>`_ (the Gentoo package
 manager). 
 
-**etcat** used to be part of **gentoolkit** but some years ago it was
-dropped in favour of another tool called **equery** which, although it is
-adequate and offers more functions, it never surpassed the simplicity and
-clarity of the colour coded output of **etcat**, particularly when displaying
-the available versions of a package.    
+**etcat** used to be part of **gentoolkit** but some years ago it was dropped
+in favour of another tool called 
+`equery <https://wiki.gentoo.org/wiki/Equery>`_, which, although it is adequate and
+offers more functions, it never surpassed the simplicity and clarity of the
+colour coded output of **etcat**, particularly when displaying the available
+versions of a package.    
 
 **etcat** can be used to show the:
 
