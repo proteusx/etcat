@@ -56,7 +56,7 @@ size (-s short option)
 USAGE
 +++++
 
-Make sure that python script **etcat** is executable and place it 
+Make sure that the python script **etcat** is executable and place it 
 somewhere in your search path (e.g. in ``/usr/local/bin/`` or ``~/bin/``)    
 
 EXAMPLE
