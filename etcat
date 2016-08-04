@@ -4,7 +4,7 @@
 #
 # --| Version Information |------------------------------------------
 # 
-#  etcat v0.3.2 (10 July 2016)
+#  etcat v0.3.3 (5 Aug 2016)
 #
 #  $Header$
 #
@@ -39,6 +39,8 @@
 # 
 # --| Changes |------------------------------------------------------
 #
+#  * etcat-0.3.3 (5 Augl 2016) [Proteus]
+#	- In versions, if package is from overlay display repo name
 #  * etcat-0.3.2 (10 Jul 2016) [Proteus]
 #	- Modified to work with new Gentoolkit
 #       - Removed -b, -d and -g options
@@ -297,13 +299,14 @@ def versions(query, matches):
 
 		# check if this is a OVERLAY ebuilds
 		if pkg.is_overlay():
-			overlay = " OVERLAY"
+			overlay = pkg.repo_name()
+			overlay = "[" + color(overlay) + "]"
 
 		ver = pkg.version
 		rev = pkg.revision
                 if rev: rev = "-" + rev
 		slot = pkg.environment("SLOT")
-		print " "*8 + "[" + "".join(state) + "] " + color(ver) + color(rev) + " (" + color(slot) + ")" + overlay
+		print " "*8 + "[" + "".join(state) + "] " + color(ver) + color(rev) + " (" + color(slot) + ") " + overlay
 
 # .-------------------------------------------------------.
 # | List USE flags for a single ebuild, if it's installed |

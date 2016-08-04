@@ -2,6 +2,11 @@
 ETCAT
 =====
 
+
+.. figure:: etcat-example.png
+   :scale: 100
+   :align: center
+
 --------
 SYNOPSIS
 --------
@@ -14,14 +19,14 @@ This is an updated version of **etcat**
 that works with the later versions of `gentoolkit <https://wiki.gentoo.org/wiki/Gentoolkit>`_.
 
 **etcat** is an information extraction utility for `Portage <https://wiki.gentoo.org/wiki/Portage>`_ (the Gentoo package
-manager). 
+manager) that Gentoo old-timers cannot do without.  
 
 **etcat** used to be part of **gentoolkit** but some years ago it was dropped
 in favour of another tool called 
 `equery <https://wiki.gentoo.org/wiki/Equery>`_, which, although it is adequate and
 offers more functions, it never surpassed the simplicity and clarity of the
 colour coded output of **etcat**, particularly when displaying the available
-versions of a package.    
+versions of a package. **etcat** is a simple python script that uses only **gentoolkit** functions.   
 
 **etcat** can be used to show the:
 
@@ -31,7 +36,9 @@ versions of a package.
 * use flags of an ebuild
 
 The functions *belongs*, *depends* and *graph* of the original **etcat** 
-have been dropped from this version.
+have been dropped from this version, where as the -v option now displays 
+repo details too.
+
 
 OPTIONS
 +++++++
@@ -46,6 +53,7 @@ uses (-u short option)
 versions (-v short option)
   Displays the versions available for a specific package. Colour coded  
   to indicate installation status and displays slot information.
+  If the ebuild is from overlay the repository is also displayed (new).
 
 changes (-c short option)
   Outputs the changelog entry to screen. It is possible to give a version 
@@ -67,9 +75,4 @@ EXAMPLE
 
 .. figure:: etcat.png
    :scale: 100
-
-TODO
-++++
-
-* if the ebuild is from an overlay, print the overlay name rather than "OVERLAY". 
 
