@@ -47,12 +47,12 @@ files (-f short option)
   Lists files that belong to a package and optionally with version.
 
 uses (-u short option)
-  Advanced output of USE vars in a package. Tells you flags used by a package
+  Advanced output of USE vars in a package. It shows the flags used by a package
   at time of installation, flags in current configuration and flag description.
 
 versions (-v short option)
   Displays the versions available for a specific package. Colour coded  
-  to indicate installation status and displays slot information.
+  to indicate installation status, and displays slot information .
   If the ebuild is from overlay the repository is also displayed (new).
 
 changes (-c short option)
