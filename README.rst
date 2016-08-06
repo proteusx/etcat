@@ -76,3 +76,20 @@ EXAMPLE
 .. figure:: etcat.png
    :scale: 100
 
+Other utilities offering similar functionality
+++++++++++++++++++++++++++++++++++++++++++++++
+
+`eix <https://github.com/vaeth/eix>`_
+  A powerful, highly configurable portage search utility with beautiful colour-coded output. 
+  The latest version offers the utility **eix-etcat** which is equivalent to "etcat -v".
+
+`equery <https://wiki.gentoo.org/wiki/Equery>`_
+  Part of `gentoolkit <https://wiki.gentoo.org/wiki/Gentoolkit>`_. Can achieve similar functionality
+  but the output is not as easy to read:
+
+  .. code-block:: bash
+
+    equery l -op  -F '[$location] [$mask] $cpv:$slot [$repo]'
+
+`esearch <https://github.com/fuzzyray/esearch>`_
+  Another good portage search utility.  I have not succeeded to coax it to give etcat equivalent output.
