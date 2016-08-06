@@ -4,7 +4,7 @@
 #
 # --| Version Information |------------------------------------------
 # 
-#  etcat v1.0.0 (6 Aug 2016)
+#  etcat v1.0.1 (7 Aug 2016)
 #
 #  $Header$
 #
@@ -38,6 +38,9 @@
 # 
 # --| Changes |------------------------------------------------------
 #
+#  * etcat-1.0.1 (7 Augl 2016) [Proteus]
+#	- Removed useles heading from output
+#       - Simplified code
 #  * etcat-1.0.0 (6 Augl 2016) [Proteus]
 #	- Now works with python 3.x too
 #       - Tabs to spaces
@@ -106,7 +109,7 @@ except ImportError:
 
 __author__ = "Alastair Tse"
 __email__ = "liquidx@gentoo.org"
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __productname__ = "etcat"
 __description__ = "Portage Information Extractor"
 
@@ -227,8 +230,7 @@ def output_log(lines, package_ver=""):
 # `-------------------------------------------------------'
 
 def changes(query, matches):
-        if not report_matches(query,matches,installed_only=0):
-                return
+        if not matches: etcat_exit()
 
         for pkg in matches:
                 changelog_file = pkg.package_path() + "/ChangeLog"
@@ -248,7 +250,7 @@ def changes(query, matches):
 def versions(query, matches):
 # this function should also report masked packages
         matches = gentoolkit.query.Query(query).find()
-        if not report_matches(query,matches): return
+        if not matches: etcat_exit()
 
         # sorting result list
         matches.sort()
@@ -367,8 +369,7 @@ def uses(query, matches):
 def size(query,packages):
         # packages = gentoolkit.find_packages(query)
         packages = gentoolkit.query.Query(query).find()
-        if not report_matches(query, packages):
-            return
+        if not matches: etcat_exit()
 
         for pkg in packages:
                 if not pkg.is_installed():
@@ -384,21 +385,9 @@ def size(query,packages):
                 print (" Total Size : ".rjust(25) + "%.2f KB" % (size/1024.0))
 
 
-def report_matches(query, matches, installed_only=1):
-        print ("[ Results for search key           : " + white(query) + " ]")
-        print ("[ Candidate applications found : " + white(str(len(matches))) + " ]")
-        print ()
-
-        if installed_only and matches:
-                print (" Only printing found installed programs.")
-                print ()
-        elif installed_only:
-                print ("No packages found.")
-
-        if matches:
-                return 1
-        else:
-                return 0
+def etcat_exit():
+        print ("No packages found.")
+        return
 
 
 # .-------------------------------------------------------.
@@ -407,8 +396,7 @@ def report_matches(query, matches, installed_only=1):
 # | Lists all the files in a package                      |
 # `-------------------------------------------------------'                        
 def files(query,matches):
-        if not report_matches(query, matches):
-                return
+        if not matches: etcat_exit()
         
         for package in matches:
                 if not package.is_installed():
