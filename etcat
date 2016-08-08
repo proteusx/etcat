@@ -481,7 +481,7 @@ def main():
                 try:
                         matches = gentoolkit.query.Query(query).find()
                 except KeyError as e:
-                        if e[0].find("Specific key requires operator") == 0:
+                        if e.args[0].find("Specific key requires operator") == 0:
                                 print (red("!!!"), "Invalid syntax: missing operator")
                                 print (red("!!!"), "If you want only specific versions please use one of")
                                 print (red("!!!"), "the following operators as prefix for the package name:")
@@ -490,18 +490,32 @@ def main():
                                 print (red("!!!"), "   >=sys-devel/gcc-3.2")
                         else:
                                 print (red("!!!"), "Internal portage error, terminating")
-                                if len(e[0]):
+                                if len(e.args[0]):
                                         print (red("!!!"), e)
                         sys.exit(2)
                 except ValueError as e:
-                        if isinstance(e[0],list):
-                                print (red("!!!"), "Ambiguous package name \"%s\"" % query)
-                                print (red("!!!"), "Please use one of the following long names:")
-                                for p in e[0]:
-                                        print (red("!!!"), "    "+p)
+                        # If ebuild is found in more than one categories
+                        # search for ebuilds in each one.
+                        if isinstance(e.args[0],list):
+                                for p in e.args[0]:
+                                        query = p
+                                        matches = gentoolkit.query.Query(query).find()
+                                        if not matches: etcat_exit()
+                                        function = globals()[action]
+                                        function(query, matches)
+                                return        
+                                #------------------------------------------------------------------
+                                # Old behaviour: 
+                                # Warn and print ambiguous package names
+                                #
+                                # print (red("!!!"), "Ambiguous package name \"%s\"" % query)
+                                # print (red("!!!"), "Please use one of the following long names:")
+                                # for p in e.args[0]:
+                                #         print (red("!!!"), "    "+p)
+                                #------------------------------------------------------------------
                         else:
                                 print (red("!!!"), "Internal portage error, terminating")
-                                if len(e[0]):
+                                if len(e.args[0]):
                                         print (red("!!!"), e[0])
                         sys.exit(2)
                 function = globals()[action]
