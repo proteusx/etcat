@@ -33,8 +33,6 @@
 #  -u/uses     ) list all the use variables used in this package/ebuild
 #  -v/versions ) list all the versions available for a package
 #
-# --| TODO |---------------------------------------------------------
-# 
 # 
 # --| Changes |------------------------------------------------------
 #
