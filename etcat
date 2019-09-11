@@ -3,8 +3,8 @@
 # -*- mode: python; -*-
 #
 # --| Version Information |------------------------------------------
-# 
-#  etcat v1.0.1 (7 Aug 2016)
+#
+#  etcat v1.0.2 (11 Aug 2019)
 #
 #  $Header$
 #
@@ -12,9 +12,9 @@
 #
 #  etcat is a Portage/Ebuild Information Extractor. Basically, it
 #  provides higher level convienence functions to the Portage system
-#  used by Gentoo Linux. 
-#  
-#  You can use it to quickly find out the recent changes of your
+#  used by Gentoo Linux.
+#
+#  You can use it to quickly find out the available versions of your
 #  favourite package, the size of installed packages, the
 #  available versions for a package and more.
 #
@@ -27,63 +27,11 @@
 #
 #  etcat [options] <command> <package[-ver]|ebuild|category/package[-ver]>
 #
-#  -c/changes  ) list the more recent changelog entry
 #  -f/files    ) list all files that belong to this package
 #  -s/size     ) guesses the size of a installed packaged.
 #  -u/uses     ) list all the use variables used in this package/ebuild
 #  -v/versions ) list all the versions available for a package
 #
-# 
-# --| Changes |------------------------------------------------------
-#
-#  * etcat-1.0.1 (7 Augl 2016) [Proteus]
-#	- Removed useles heading from output
-#       - Simplified code
-#  * etcat-1.0.0 (6 Augl 2016) [Proteus]
-#	- Now works with python 3.x too
-#       - Tabs to spaces
-#
-#  * etcat-0.3.3 (5 Augl 2016) [Proteus]
-#	- In versions, if package is from overlay display repo name
-#  * etcat-0.3.2 (10 Jul 2016) [Proteus]
-#       - Modified to work with new Gentoolkit
-#       - Removed -b, -d and -g options
-#  * etcat-0.3.1 (10 Oct 2004) [karltk]
-#        - Fixed changes help examples
-#  * etcat-0.3.1 (08 Jan 2004) [genone]
-#        - adding missing python searchpath modification
-#        - fixing sort order
-#  * etcat-0.3.0 (12 Jul 2003) [karltk]
-#        - Refactored interesting stuff into the Gentoolkit module
-#  * etcat-0.2.0 (13 Jun 2003)
-#        - Updated "versions" with PORTAGE_OVERLAY detection
-#        - Added "graph" feature
-#  * etcat-0.1.5 (30 Apr 2003)
-#        - Fixed disappearing short opts. Oops.
-#  * etcat-0.1.4 (27 Apr 2003)
-#        - Cleaned up command execution code to provide a single place
-#          to specify functions
-#        - Added own custom wrapping print code.
-#        - Added "files" feature
-#        - Added "depends" feature
-#  * etcat-0.1.3 (24 Apr 2003)
-#        - Overhaul of commandline interpreter
-#        - Added "belongs" feature
-#        - Reimplemented "uses" to deal with IUSE more cleanly
-#          and sources use.local.desc
-#        - Natural Order Listings for version
-#  * etcat-0.1.2 (29 Mar 2003)
-#        - Added unstable indicator to complement masked
-#        - improved use flag listing
-#  * etcat-0.1.1 (21 Jan 2003)
-#        - Add package to versions listing even if it's not in
-#          the portage anymore (21 Jan 2003)
-#        - Fixed old ehack references (17 Jan 2003)
-#  * etcat-0.1 (31 Oct 2002)
-#        Initial Release;
-#
-# -------------------------------------------------------------------
-
 
 
 import os
@@ -112,18 +60,13 @@ __productname__ = "etcat"
 __description__ = "Portage Information Extractor"
 
 # .-------------------------------------------------------.
-# | Initialise Colour Settings                                                        |
+# | Initialise Colour Settings                            |
 # `-------------------------------------------------------'
 if (not sys.stdout.isatty()) or (portage.settings["NOCOLOR"] in ["yes","true"]):
         nocolor()
 
 # "option": ("shortcommand","desc",["example one", "example two"])
 options = {
-"changes": \
-("c","Outputs the changelog to screen. It is possible to give a version number along with the package name.",
-["etcat changes mozilla", 
- "etcat changes =mozilla-1.1-r1", 
- "etcat changes gkrellm$"]),
 "files": \
 ("f","Lists files that belongs to a package and optionally with version.",[]),
 "size": \
@@ -132,8 +75,8 @@ options = {
 ("u", "Advanced output of USE vars in a package. Shows the flags used by a package at time of installation, flags in current config and flag description.",[]),
 "versions": \
 ("v","Displays the versions available for a specific package. Colour coded to indicate installation status, displays slot information and the repository (if other than gentoo).",
-[turquoise("(I)") + "nstalled", 
- yellow("(~)") + "Unstable Testing Branch", 
+[turquoise("(I)") + "nstalled",
+ yellow("(~)") + "Unstable Testing Branch",
  red("(M)") + "asked Package"])
 }
 
@@ -145,7 +88,7 @@ def wrap_print(string, indent=0, width=74):
         line_len = width - indent
         str_len = len(string)
         lines = []
-        
+
         pos = 0
         thisline = ""
         while pos < str_len:
@@ -164,11 +107,11 @@ def wrap_print(string, indent=0, width=74):
                                 pos += 1
                         # end of a word
                         elif string[pos] != " " and string[pos+1] == " ":
-                                thisline += string[pos]                
+                                thisline += string[pos]
                                 pos += 1
                         # just a space
                         elif string[pos] == " ":
-                                thisline += string[pos]                                
+                                thisline += string[pos]
                                 pos += 1
                         # start of a word, we start the word on the next line
                         elif pos>0 and string[pos-1] == " ":
@@ -176,7 +119,7 @@ def wrap_print(string, indent=0, width=74):
                         # needs hyphenating
                         else:
                                 thisline += "-"
-                                
+
                         # append the line
                         lines.append(thisline)
                         thisline = ""
@@ -184,7 +127,7 @@ def wrap_print(string, indent=0, width=74):
         # append last line
         if thisline:
                 lines.append(thisline)
-                        
+
         for line in lines:
                 print (" "*indent + line)
 
@@ -194,8 +137,8 @@ def wrap_print(string, indent=0, width=74):
 # | Extracts and prints out the log entry corresponding   |
 # | to a certain revision if given. If not supplied,      |
 # | prints out the latest/topmost entry                   |
-# `-------------------------------------------------------'        
-        
+# `-------------------------------------------------------'
+
 # output the latest entry in changelog
 def output_log(lines, package_ver=""):
         # using simple rules that all changelog entries have a "*"
@@ -218,24 +161,8 @@ def output_log(lines, package_ver=""):
                         print (line.rstrip())
                 else:
                         pass
-                
+
         return is_printed
-
-# .-------------------------------------------------------.
-# | Changes Function                                      |
-# +-------------------------------------------------------+
-# | Print out the ChangeLog entry for package[-version]   |
-# `-------------------------------------------------------'
-
-def changes(query, matches):
-        if not matches: etcat_exit()
-
-        for pkg in matches:
-                changelog_file = pkg.package_path() + "/ChangeLog"
-                if os.path.exists(changelog_file):
-                        output_log(open(changelog_file).readlines(), pkg.name+"-"+pkg.version)
-                else:
-                        print (red("Error") + ": No Changelog for " + pkg.cpv)
 
 
 # .-------------------------------------------------------.
@@ -243,8 +170,8 @@ def changes(query, matches):
 # +-------------------------------------------------------+
 # | Prints out the available version, masked status and   |
 # | installed status.                                     |
-# `-------------------------------------------------------'                
-                
+# `-------------------------------------------------------'
+
 def versions(query, matches):
 # this function should also report masked packages
         matches = gentoolkit.query.Query(query).find()
@@ -252,7 +179,7 @@ def versions(query, matches):
 
         # sorting result list
         matches.sort()
-                
+
         # FIXME: old version printed result of regex search on name,
         # so "ant" would return app-emacs/semantic, etc...
 
@@ -263,12 +190,12 @@ def versions(query, matches):
             if last_cp != new_cp:
                     print (green("*") + "  " + white(new_cp) + " :")
             last_cp = new_cp
-                    
+
             state = []
             color = green
             unstable = 0
             overlay = ""
-                    
+
             # check if masked
             if pkg.is_masked():
                     state.append(red("M"))
@@ -285,7 +212,7 @@ def versions(query, matches):
                     unstable = 1
             else:
                     state.append(" ")
-                            
+
             # check if installed
             if pkg.is_installed():
                     state.append(turquoise("I"))
@@ -308,55 +235,68 @@ def versions(query, matches):
 # | List USE flags for a single ebuild, if it's installed |
 # +-------------------------------------------------------+
 # | Just uses the new IUSE parameter in ebuilds           |
-# `-------------------------------------------------------' 
+# `-------------------------------------------------------'
 def uses(query, matches):
-        useflags = portage.settings["USE"].split()
-        usedesc = {}
-        usedesc = get_global_useflags()
-                
-        print ("[ Colour Code : " + green("set") + " " + red("unset") + " ]")
-        print ("[ Legend   : (U) Col 1 - Current USE flags        ]")
-        print ("[          : (I) Col 2 - Installed With USE flags ]")
+    useflags = portage.settings["USE"].split()
+    usedesc = {}
+    usedesc = get_global_useflags()
 
-        # if filter(gentoolkit.Package.is_installed, matches):
-        if filter(gentoolkit.package.Package.is_installed,  matches):
-                only_installed = True
-        else:
-                only_installed = False
+    print ("[ Colour Code : " + green("set") + " " + red("unset") + " ]")
+    print ("[ Legend   : (U) Col 1 - Current USE flags        ]")
+    print ("[          : (I) Col 2 - Installed With USE flags ]")
 
-        # Iterate through matches, printing a report for each package
-        for p in matches:
-                output = get_output_descriptions(p, usedesc)
-                if not p.is_installed() and only_installed: continue
-                bestver = p.cpv
-                # pretty print
-                if output:
-                        print()
-                        print (white(" U I ") + "[ Found these USE variables in : " + white(bestver) + " ]")
-                        maxflag_len = 0
-                        for inuse, inused, u, desc, dummy in output:
-                                if len(u) > maxflag_len:
-                                        maxflag_len = len(u)
+    # if filter(gentoolkit.Package.is_installed, matches):
+    if filter(gentoolkit.package.Package.is_installed,  matches):
+            only_installed = True
+    else:
+            only_installed = False
 
-                        for inuse, inused, u, desc, dummy in output:
-                                flag = ["-","+"]
-                                colour = [red, green]
-                                if inuse != inused:
-                                        print (yellow(" %s %s" % (flag[inuse], flag[inused]))),
-                                else:
-                                        print (" %s %s" % (flag[inuse], flag[inused]),)
+    # Iterate through matches, printing a report for each package
+    for p in matches:
+            bestver = p.cpv
+            print("**** ", gentoolkit.package.Package.package_path(p, True))
 
-                                print (colour[inuse](u.ljust(maxflag_len))),
+            # I have some packages installed that have been removed from
+            # the tree.  These make gentoolkit crash (package.py.path), so
+            # Check that package is in portage tree
+            # if not print warning.
+            if gentoolkit.package.Package.exists(p) is False:
+                print()
+                print(green("----------------------------------------------------------------------"))
+                print(red("!!! ") + white("Package is installed but no longer in tree: "), red(bestver))
+                print(green("----------------------------------------------------------------------"))
+                print()
+                continue
+            output = get_output_descriptions(p, usedesc)
+            if not p.is_installed() and only_installed: continue
+            # pretty print
+            if output:
+                    print()
+                    print (white(" U I ") + "[ Found these USE variables in : " + white(bestver) + " ]")
+                    maxflag_len = 0
+                    for inuse, inused, u, desc, dummy in output:
+                            if len(u) > maxflag_len:
+                                    maxflag_len = len(u)
 
-                                # print description
-                                if desc:
-                                        print (":", desc)
-                                else:
-                                        print (": unknown")
-                else:
-                        print ("[ No USE flags found for :", white(p.cpv), "]")
+                    for inuse, inused, u, desc, dummy in output:
+                            flag = ["-","+"]
+                            colour = [red, green]
+                            if inuse != inused:
+                                    print (yellow(" %s %s" % (flag[inuse], flag[inused]))),
+                            else:
+                                    print (" %s %s" % (flag[inuse], flag[inused]),)
 
-        return
+                            print (colour[inuse](u.ljust(maxflag_len))),
+
+                            # print description
+                            if desc:
+                                    print (":", desc)
+                            else:
+                                    print (": unknown")
+            else:
+                    print ("[ No USE flags found for :", white(p.cpv), "]")
+
+    return
 
 
 # .-------------------------------------------------------.
@@ -367,7 +307,8 @@ def uses(query, matches):
 def size(query,packages):
         # packages = gentoolkit.find_packages(query)
         packages = gentoolkit.query.Query(query).find()
-        if not matches: etcat_exit()
+        # print ( packagfile:///home/prot/Desktop/projects/etcat-fix/etcat-gites )
+        if not packages: etcat_exit()
 
         for pkg in packages:
                 if not pkg.is_installed():
@@ -380,7 +321,7 @@ def size(query,packages):
                 print (" Total Files : ".rjust(25) + str(files))
                 if uncounted:
                         print (" Inaccessible Files : ".rjust(25) + str(uncounted))
-                print (" Total Size : ".rjust(25) + "%.2f KB" % (size/1024.0))
+                print ("Total Size  : ".rjust(25) + "%.2f KB" % (size/1024.0))
 
 
 def etcat_exit():
@@ -392,15 +333,15 @@ def etcat_exit():
 # | Files in a package                                    |
 # +-------------------------------------------------------+
 # | Lists all the files in a package                      |
-# `-------------------------------------------------------'                        
+# `-------------------------------------------------------'
 def files(query,matches):
         if not matches: etcat_exit()
-        
+
         for package in matches:
                 if not package.is_installed():
                         continue
                 contents = package.parsed_contents()
-                
+
                 print (yellow(" * ") + white(package.cpv))
                 for x in contents.keys():
                         t = contents[x][0]
@@ -424,7 +365,7 @@ def help():
         margin = 2
         margin_desc = 4
         margin_ex = 8
-        
+
         ver()
         print ()
         print (white("Usage: ") + turquoise(__productname__) + " [ " + green("options") + " ] [ " + turquoise("action") + " ] [ " + turquoise("package") + " ]")
@@ -442,14 +383,14 @@ def help():
 # | Main Function                                         |
 # `-------------------------------------------------------'
 def main():
-        
+
         action = ''
         query = ''
-        
+
         if len(sys.argv) < 3:
                 help()
                 sys.exit(1)
-                
+
         # delegates the commandline stuff to functions
         pointer = 2
         # short/long opts mapping
@@ -470,7 +411,7 @@ def main():
                         break
                 else:
                         pointer += 1
-                        
+
         # abort if we don't have an action or query string
         if not query or action not in options.keys():
                 help()
@@ -501,9 +442,9 @@ def main():
                                         if not matches: etcat_exit()
                                         function = globals()[action]
                                         function(query, matches)
-                                return        
+                                return
                                 #------------------------------------------------------------------
-                                # Old behaviour: 
+                                # Old behaviour:
                                 # Warn and print ambiguous package names
                                 #
                                 # print (red("!!!"), "Ambiguous package name \"%s\"" % query)
@@ -518,7 +459,7 @@ def main():
                         sys.exit(2)
                 function = globals()[action]
                 function(query, matches)
-        
+
 if __name__ == "__main__":
         try:
                 main()
