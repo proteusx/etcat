@@ -1,0 +1,55 @@
+etcat-1.0.2 (11 Aug 2019) [Proteus]
+		- Removed "changes" command. It is no longer relevant.
+		- Fixed crash in "uses" command when an installed package
+		  has gone away from portage tree. Print a warning instead.
+		- changelog in separate file
+
+etcat-1.0.1 (7 Aug 2016) [Proteus]
+	  - Removed useles heading from output
+		- Simplified code
+
+etcat-1.0.0 (6 Aug 2016) [Proteus]
+	  - Now works with python 3.x too
+		- Tabs to spaces
+
+etcat-0.3.3 (5 Aug 2016) [Proteus]
+	- In versions, if package is from overlay display repo name
+
+etcat-0.3.2 (10 Jul 2016) [Proteus]
+		- Modified to work with new Gentoolkit
+		- Removed -b, -d and -g options
+
+etcat-0.3.1 (10 Oct 2004) [karltk]
+		- Fixed changes help examples
+etcat-0.3.1 (08 Jan 2004) [genone]
+		- adding missing python searchpath modification
+		- fixing sort order
+etcat-0.3.0 (12 Jul 2003) [karltk]
+		- Refactored interesting stuff into the Gentoolkit module
+etcat-0.2.0 (13 Jun 2003)
+		- Updated "versions" with PORTAGE_OVERLAY detection
+		- Added "graph" feature
+etcat-0.1.5 (30 Apr 2003)
+		- Fixed disappearing short opts. Oops.
+etcat-0.1.4 (27 Apr 2003)
+		- Cleaned up command execution code to provide a single place
+		  to specify functions
+		- Added own custom wrapping print code.
+		- Added "files" feature
+		- Added "depends" feature
+etcat-0.1.3 (24 Apr 2003)
+		- Overhaul of commandline interpreter
+		- Added "belongs" feature
+		- Reimplemented "uses" to deal with IUSE more cleanly
+		and sources use.local.desc
+		- Natural Order Listings for version
+etcat-0.1.2 (29 Mar 2003)
+		- Added unstable indicator to complement masked
+		- improved use flag listing
+etcat-0.1.1 (21 Jan 2003)
+		- Add package to versions listing even if it's not in
+		the portage anymore (21 Jan 2003)
+		- Fixed old ehack references (17 Jan 2003)
+etcat-0.1 (31 Oct 2002)
+		Initial Release;
+
