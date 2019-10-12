@@ -55,7 +55,7 @@ except ImportError:
 
 __author__ = "Alastair Tse"
 __email__ = "liquidx@gentoo.org"
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 __productname__ = "etcat"
 __description__ = "Portage Information Extractor"
 
