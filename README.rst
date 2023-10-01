@@ -1,4 +1,10 @@
 =====
+Moved to Codeberg
+=====
+
+See: https://codeberg.org/proteusx/etcat
+
+=====
 ETCAT
 =====
 
